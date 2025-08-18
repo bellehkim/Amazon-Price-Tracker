@@ -1,0 +1,65 @@
+package com.example.amazonpricetracker.backend.dao;
+
+import android.content.res.AssetManager;
+import android.util.Log;
+
+import com.example.amazonpricetracker.backend.model.Product;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProductDao {
+    public List<Product> loadProductsFromCSV(AssetManager assetManager) {
+        InputStream inputStream = null;
+        BufferedReader reader = null;
+        List<Product> productList = new ArrayList<>();
+
+        try {
+            inputStream = assetManager.open("products.cvs");
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String cvsLine;
+            while ((cvsLine = reader.readLine()) != null) {
+                String[] row = cvsLine.split(",");
+
+                if (row.length == 4) {
+                    try {
+                        String name = row[0].trim();
+                        String category = row[1].trim();
+                        double currentPrice = Double.parseDouble(row[2].trim());
+                        double targetPrice = Double.parseDouble(row[3].trim());
+
+                        productList.add(new Product(name, currentPrice));
+                    } catch (NumberFormatException e) {
+                        Log.e("MainActivity", "Error parsing CSV line: " + cvsLine, e);
+                    }
+                } else {
+                    Log.w("MainActivity", "Skipping invalid CSV line: " + cvsLine);
+                }
+            }
+        } catch (IOException e) {
+            Log.e("MainActivity", "Error reading CSV file", e);
+        } finally {
+            try {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        Log.e("MainActivity", "Error closing input stream", e);
+                    }
+                }
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                Log.e("MainActivity", "Error closing reader", e);
+            }
+        }
+
+        return productList;
+    }
+}

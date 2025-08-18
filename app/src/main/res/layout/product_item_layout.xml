@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Product Name (Top-Left) -->
+    <TextView
+        android:id="@+id/textViewProductName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewCurrentPrice"
+        tools:text="Product Name Example" />
+
+    <!-- Product List Name (Below Product Name) -->
+    <TextView
+        android:id="@+id/textViewProductListName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/textViewProductName"
+        app:layout_constraintTop_toBottomOf="@id/textViewProductName"
+        app:layout_constraintEnd_toEndOf="@id/textViewProductName"
+        tools:text="List: Electronics" />
+
+    <!-- Product Price (Top-Right) -->
+    <TextView
+        android:id="@+id/textViewCurrentPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewProductName"
+        tools:text="$199.99" />
+
+    <!-- Target (Below Product Price) -->
+    <TextView
+        android:id="@+id/textViewTargetPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="@id/textViewCurrentPrice"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentPrice"
+        tools:text="Cost: $150.00" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
