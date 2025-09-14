@@ -1,12 +1,15 @@
 package com.example.amazonpricetracker.frontend;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amazonpricetracker.R;
@@ -16,22 +19,33 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     // Store data for the adpater
-    private final List<Product> productList;
-    // Constructor to pass data to the adapter
-    public ProductAdapter(List<Product> productList) {
-        this.productList = productList;
-    }
+    public final List<Product> productList;
+    public final Context context;
 
+    // Constructor to pass data to the adapter
+    public ProductAdapter(List<Product> productList, Context context) {
+        this.productList = productList;
+        // Turns XML layouts into actual View objects
+        this.context = context;
+    }
     // ViewHolder class to hold the views for each item in the RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView productNameTextView;
-        public TextView productPriceTextView;
+        public TextView discountBadge, productName, currentPrice, originalPrice, priceChangePercent;
+        public ImageView productImage, favoriteIcon;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            productNameTextView = itemView.findViewById(R.id.textViewProductName);
-            productPriceTextView = itemView.findViewById(R.id.textViewCurrentPrice);
+            discountBadge = itemView.findViewById(R.id.discountBadge);
+            productName = itemView.findViewById(R.id.productName);
+            currentPrice = itemView.findViewById(R.id.currentPrice);
+            originalPrice = itemView.findViewById(R.id.originalPrice);
+            priceChangePercent = itemView.findViewById(R.id.priceChangePercent);
+         //   productImage = itemView.findViewById(R.id.productImage);
+            favoriteIcon = itemView.findViewById(R.id.favoriteIcon);
 
+            favoriteIcon.setOnClickListener(v -> {
+                favoriteIcon.setSelected(!favoriteIcon.isSelected());
+            });
         }
     }
     @NonNull
@@ -50,15 +64,45 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // Set the text for the product name and price
 //        holder.productNameTextView.setText(currentProduct.getName());
 //        holder.productPriceTextView.setText(currentProduct.getPrice());
-        holder.productNameTextView.setText(currentProduct.name != null
+
+        // Current Price
+        holder.productName.setText(currentProduct.name != null
                 ? currentProduct.name : "(no name");
 
-        @SuppressLint("DefaultLocale") String formattedPrice = String.format("%.2f", currentProduct.price);
-        holder.productPriceTextView.setText(formattedPrice);
+        @SuppressLint("DefaultLocale") String formatedCurrentPrice =
+                String.format("%.2f", currentProduct.currentPrice);
+        holder.currentPrice.setText(formatedCurrentPrice);
 
-        String priceText = "$" + currentProduct.price; // Assuming getPrice() returns a double/float/int
-        holder.productPriceTextView.setText(priceText);
+        // Original Price
+        if (currentProduct.originalPrice > 0
+                && currentProduct.originalPrice < currentProduct.currentPrice) {
+            holder.originalPrice.setVisibility(View.VISIBLE);
+            @SuppressLint("DefaultLocale") String formattedOriginalPrice =
+                    String.format("%.2f", currentProduct.originalPrice);
+            holder.currentPrice.setText(formattedOriginalPrice);
+        } else {
+            holder.originalPrice.setVisibility(View.GONE);
+        }
 
+        // Discount Badge
+        if (currentProduct.discount != null && !currentProduct.discount.isEmpty()) {
+            holder.discountBadge.setVisibility(View.VISIBLE);
+            holder.discountBadge.setText(currentProduct.discount);
+        } else {
+            holder.discountBadge.setVisibility(View.GONE);
+
+        }
+
+        // Price Change
+        if (currentProduct.priceChange != null && !currentProduct.priceChange.isEmpty()) {
+            holder.priceChangePercent.setVisibility(View.VISIBLE);
+            holder.priceChangePercent.setText(currentProduct.priceChange);
+        } else {
+            holder.priceChangePercent.setVisibility(View.GONE);
+        }
+
+        // Favorite Icon
+        holder.favoriteIcon.setSelected(currentProduct.isFavorite);
     }
 
     public int getItemCount() {

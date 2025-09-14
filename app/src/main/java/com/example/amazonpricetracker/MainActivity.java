@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private ProductAdapter productAdapter;
-    private ProductDao productDao;
+    public ProductAdapter productAdapter;
+    public ProductDao productDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // App's content can draw under the system bars (e.g. status bar at the top and navigation bar at the bottom)
         EdgeToEdge.enable(this);
-        // Makes the UI defined in XML visible on the screen
+        // Makes the UI defined in XML visible on the scree
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        RecyclerView recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
+        RecyclerView recyclerViewProducts = findViewById(R.id.recyclerView);
         productDao = new ProductDao();
 
         List<Product> productList = productDao.loadProductsFromCSV(getAssets());
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewProducts.setLayoutManager(layoutManager);
 
-        productAdapter = new ProductAdapter(productList);
+        productAdapter = new ProductAdapter(productList, this);
         recyclerViewProducts.setAdapter(productAdapter);
         recyclerViewProducts.setHasFixedSize(true);
 

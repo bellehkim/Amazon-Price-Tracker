@@ -1,9 +1,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- Base application theme -->
     <style name="Base.Theme.AmazonPriceTracker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/accent_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary color -->
+        <item name="colorSecondary">@color/bottom_nav_selected</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Surface / background colors -->
+        <item name="android:colorBackground">@color/background_color</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+
+        <!-- Status bar & navigation bar -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/white</item>
+
+        <!-- Default text colors -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+
+        <!-- Material Components customization -->
+        <item name="materialThemeOverlay">@style/ThemeOverlay.AmazonPriceTracker</item>
     </style>
 
+    <!-- Public theme entry -->
     <style name="Theme.AmazonPriceTracker" parent="Base.Theme.AmazonPriceTracker" />
+
+    <!-- Optional overlay for Material components -->
+    <style name="ThemeOverlay.AmazonPriceTracker" parent="">
+        <item name="colorControlActivated">@color/accent_color</item>
+        <item name="colorControlHighlight">@color/accent_color</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+    </style>
+
 </resources>
