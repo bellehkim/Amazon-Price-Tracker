@@ -29,11 +29,14 @@ public class ProductDao {
                 if (row.length == 4) {
                     try {
                         String name = row[0].trim();
-                        String category = row[1].trim();
-                        double currentPrice = Double.parseDouble(row[2].trim());
-                        double targetPrice = Double.parseDouble(row[3].trim());
+                        double currentPrice = Double.parseDouble(row[1].trim());
+                        double originalPrice = Double.parseDouble(row[2].trim());
+                        String priceChange = row[3].trim();
+                        String discount = row[4].trim();
+                        boolean isFavorite = Boolean.parseBoolean(row[6].trim());
 
-                        productList.add(new Product(name, currentPrice));
+                        productList.add(new Product(name, currentPrice, originalPrice, discount,
+                                priceChange, isFavorite));
                     } catch (NumberFormatException e) {
                         Log.e("MainActivity", "Error parsing CSV line: " + cvsLine, e);
                     }

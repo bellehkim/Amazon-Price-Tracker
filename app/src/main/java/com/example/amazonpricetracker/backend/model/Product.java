@@ -1,15 +1,23 @@
 package com.example.amazonpricetracker.backend.model;
 
 public class Product {
-    public String name;
-    public double price;
+    // TODO: I need target price variable later
+    public final String name;
+    public final double currentPrice;
+    public final double originalPrice;
+    public final String discount;
+    public final String priceChange;
+    public final boolean isFavorite;
+  //  public final String image;
 
-    public Product(String title, double currentPrice) {
-        this.name = title;
-        this.price = currentPrice;
-    }
-
-    public void printDetails() {
-        System.out.println("Title: " + this.name);
+    public Product(final String name, final double currentPrice, final double originalPrice,
+                   final String discount, final String priceChange, final boolean isFavorite) {
+        this.name = name;
+        this.currentPrice = currentPrice;
+        this.originalPrice = originalPrice;
+        this.discount = discount;
+        this.priceChange = priceChange;
+        this.isFavorite = isFavorite;
+      //  this.image = image;
     }
 }
