@@ -58,10 +58,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate the layer
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.product_item_layout, parent, false);
+                .inflate(R.layout.product_layout, parent, false);
+
         return new ViewHolder(view);
     }
+
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         if (holder.productName == null) {
             // Log an error or handle the case where the TextView is not found
             Log.e("ProductAdapter", "ProductName not found!");
@@ -75,11 +79,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 //        holder.productNameTextView.setText(currentProduct.getName());
 //        holder.productPriceTextView.setText(currentProduct.getPrice());
 
+        Log.d("ProductAdapter", "Binding position=" + position + " name=" + currentProduct.name);
+
+
         holder.productName.setText(currentProduct.name);
 
         // Current Price
         holder.productName.setText(currentProduct.name != null
-                ? currentProduct.name : "(no name");
+                ? currentProduct.name : "(no name)");
 
         @SuppressLint("DefaultLocale") String formatedCurrentPrice =
                 String.format("%.2f", currentProduct.currentPrice);
@@ -87,11 +94,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         // Original Price
         if (currentProduct.originalPrice > 0
-                && currentProduct.originalPrice < currentProduct.currentPrice) {
+                && currentProduct.originalPrice > currentProduct.currentPrice) {
             holder.originalPrice.setVisibility(View.VISIBLE);
             @SuppressLint("DefaultLocale") String formattedOriginalPrice =
                     String.format("%.2f", currentProduct.originalPrice);
-            holder.currentPrice.setText(formattedOriginalPrice);
+            holder.originalPrice.setText(formattedOriginalPrice);
         } else {
             holder.originalPrice.setVisibility(View.GONE);
         }
@@ -113,10 +120,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.priceChangePercent.setVisibility(View.GONE);
         }
 
-        // Favorite Icon
+        // Favorite icon visual state (and optional toggle)
         holder.favoriteIcon.setSelected(currentProduct.isFavorite);
+        holder.favoriteIcon.setOnClickListener(v -> {
+            boolean newState = !holder.favoriteIcon.isSelected();
+            holder.favoriteIcon.setSelected(newState);
+        });
     }
 
+    @Override
     public int getItemCount() {
         return (productList != null) ? productList.size() : 0;
     }
