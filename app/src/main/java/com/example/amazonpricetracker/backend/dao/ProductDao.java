@@ -21,16 +21,22 @@ public class ProductDao {
         try {
             inputStream = assetManager.open("products.csv");
             reader = new BufferedReader(new InputStreamReader(inputStream));
+            boolean isFirstLine = true;
 
             String cvsLine;
             while ((cvsLine = reader.readLine()) != null) {
+
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                }
                 String[] row = cvsLine.split(",");
 
                 if (row.length == 7) {
                     try {
                         String name = row[0].trim();
-                        double currentPrice = Double.parseDouble(row[1].trim());
-                        double originalPrice = Double.parseDouble(row[2].trim());
+                        double currentPrice = parseDoubleSafe(row[1].trim());
+                        double originalPrice = parseDoubleSafe(row[2].trim());
                         String priceChange = row[3].trim();
                         String discount = row[4].trim();
                         boolean isFavorite = Boolean.parseBoolean(row[6].trim());
@@ -64,5 +70,13 @@ public class ProductDao {
         }
 
         return productList;
+    }
+
+    private double parseDoubleSafe(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
     }
 }
