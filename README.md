@@ -18,6 +18,12 @@ Users can add items to their wishlist and receive notifications when prices drop
 - **Database:** 
 - **UI:** Material Design Components
 
+## 📋 Project Management
+- **Confluence** for writing the design document and project documentation  
+- **Jira** for tracking tasks, features, and progress  
+- Followed an **agile-inspired workflow**, breaking down features into smaller deliverables
+
+
 ## 🚀 Getting Started
 
 ### Prerequisites
