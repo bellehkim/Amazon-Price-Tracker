@@ -15,10 +15,6 @@ import com.example.amazonpricetracker.backend.dao.ProductDao;
 import com.example.amazonpricetracker.backend.model.Product;
 import com.example.amazonpricetracker.frontend.ProductAdapter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,34 +32,36 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         // Makes the UI defined in XML visible on the scree
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        System.out.println("tttttttttttt");
-        
         RecyclerView recyclerViewProducts = findViewById(R.id.recyclerView);
+        if (recyclerViewProducts == null) {
+            Log.e("MainActivity", "RecyclerView not found!");
+            return;
+        }
         productDao = new ProductDao();
-
         List<Product> productList = productDao.loadProductsFromCSV(getAssets());
 
-        System.out.println("Current product: " + productList);
-        System.out.println("Product list size: " + productList.size());
 
-        if (productList.isEmpty()) {
+        if (productList == null || productList.isEmpty()) {
             Log.e("MainActivity", "No products loaded from CSV");
+            productList = new ArrayList<>();
+        } else {
+            Log.d("MainActivity", "Product list size" + productList.size());
         }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewProducts.setLayoutManager(layoutManager);
 
         productAdapter = new ProductAdapter(productList, this);
+        recyclerViewProducts.setHasFixedSize(false);
         recyclerViewProducts.setAdapter(productAdapter);
-        recyclerViewProducts.setHasFixedSize(true);
 
-        // TODO: ADD API call logic here
+       // TODO: ADD API call logic here
     }
-
 }
