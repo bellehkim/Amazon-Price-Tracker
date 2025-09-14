@@ -19,14 +19,14 @@ public class ProductDao {
         List<Product> productList = new ArrayList<>();
 
         try {
-            inputStream = assetManager.open("products.cvs");
+            inputStream = assetManager.open("products.csv");
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String cvsLine;
             while ((cvsLine = reader.readLine()) != null) {
                 String[] row = cvsLine.split(",");
 
-                if (row.length == 4) {
+                if (row.length == 7) {
                     try {
                         String name = row[0].trim();
                         double currentPrice = Double.parseDouble(row[1].trim());
