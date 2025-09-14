@@ -2,6 +2,7 @@ package com.example.amazonpricetracker.frontend;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +43,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             priceChangePercent = itemView.findViewById(R.id.priceChangePercent);
          //   productImage = itemView.findViewById(R.id.productImage);
             favoriteIcon = itemView.findViewById(R.id.favoriteIcon);
-
-            favoriteIcon.setOnClickListener(v -> {
-                favoriteIcon.setSelected(!favoriteIcon.isSelected());
-            });
+            if (favoriteIcon != null) {
+                favoriteIcon.setOnClickListener(v -> {
+                    favoriteIcon.setSelected(!favoriteIcon.isSelected());
+                });
+            } else {
+                // Log an error or handle the case where the ImageView is not found
+                Log.e("ProductAdapter", "ImageView not found!");
+            }
         }
     }
     @NonNull
@@ -57,6 +62,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return new ViewHolder(view);
     }
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (holder.productName == null) {
+            // Log an error or handle the case where the TextView is not found
+            Log.e("ProductAdapter", "ProductName not found!");
+            return;
+        }
         // 1. Get the data model for the current item based on position
         // 'position' is the index of the item in the list
         Product currentProduct = productList.get(position);
@@ -64,6 +74,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // Set the text for the product name and price
 //        holder.productNameTextView.setText(currentProduct.getName());
 //        holder.productPriceTextView.setText(currentProduct.getPrice());
+
+        holder.productName.setText(currentProduct.name);
 
         // Current Price
         holder.productName.setText(currentProduct.name != null

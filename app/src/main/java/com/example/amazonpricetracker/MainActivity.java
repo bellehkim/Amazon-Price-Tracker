@@ -42,11 +42,15 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        System.out.println("tttttttttttt");
+        
         RecyclerView recyclerViewProducts = findViewById(R.id.recyclerView);
         productDao = new ProductDao();
 
         List<Product> productList = productDao.loadProductsFromCSV(getAssets());
-        System.out.println("Loaded products: " + productList);
+
+        System.out.println("Current product: " + productList);
+        System.out.println("Product list size: " + productList.size());
 
         if (productList.isEmpty()) {
             Log.e("MainActivity", "No products loaded from CSV");
