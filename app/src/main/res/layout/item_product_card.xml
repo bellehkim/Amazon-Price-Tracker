@@ -9,13 +9,12 @@
     card_view:cardCornerRadius="12dp"
     card_view:cardElevation="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- Discount badge is optional; keep for later if you like -->
+        <!-- Discount badge -->
         <TextView
             android:id="@+id/discountBadge"
             android:layout_width="wrap_content"
@@ -23,12 +22,13 @@
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
             android:background="@color/discount_red"
-            android:text="-20%"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
-        <!-- Favorite Icon -->
+        <!-- Favorite Icon (Top-Right) -->
         <ImageView
             android:id="@+id/favoriteIcon"
             android:layout_width="24dp"
@@ -38,12 +38,20 @@
             android:src="@drawable/ic_favorite_border"
             android:contentDescription="@string/add_to_favorite_description" />
 
+        <!-- Main Content Area (Vertical LinearLayout) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/favoriteIcon"
+            android:layout_marginTop="4dp">        <!-- Optional: add some space if below -->
+        <!-- Or remove layout_below if it can overlap or be beside-->
+
+
         <TextView
             android:id="@+id/productName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sample product name"
-            android:textColor="@color/text_primary"
             android:textSize="16sp"
             android:textStyle="bold"
             android:maxLines="2"
@@ -60,7 +68,6 @@
                 android:id="@+id/currentPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$49.99"
                 android:textColor="@color/text_primary"
                 android:textStyle="bold"
                 android:textSize="16sp" />
@@ -70,7 +77,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="$69.99"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp"
                 android:visibility="gone" />
@@ -80,12 +86,10 @@
             android:id="@+id/priceChangePercent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="↓ $20.00"
             android:textColor="@color/price_down"
             android:textSize="13sp"
             android:layout_marginTop="4dp"
             android:visibility="gone" />
-
-        <!-- Favorite icon placeholder removed; add later if needed -->
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</RelativeLayout>
+    </androidx.cardview.widget.CardView>
