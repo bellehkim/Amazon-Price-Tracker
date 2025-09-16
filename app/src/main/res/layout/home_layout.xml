@@ -6,13 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Header -->
+    <!-- Fixed Header Section -->
     <LinearLayout
+        android:id="@+id/fixed_header_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Price Tracker Title and Subtitle -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,14 +79,18 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-    <!-- List -->
+    <!-- Scrollable Content Section -->
+    <!-- Groups the "Recent Price Drops" title and the RecyclerView -->
     <LinearLayout
+        android:id="@+id/scrollable_content_section"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp">
+        android:paddingHorizontal="20dp"
+        android:paddingTop="0dp">
 
+        <!-- Title -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
