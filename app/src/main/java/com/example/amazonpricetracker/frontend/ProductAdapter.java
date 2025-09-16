@@ -98,8 +98,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             @SuppressLint("DefaultLocale") String formattedOriginalPrice =
                     String.format("%.2f", currentProduct.originalPrice);
             holder.originalPrice.setText(formattedOriginalPrice);
+            // Add strikethrough
+            holder.originalPrice.setPaintFlags(
+                    holder.originalPrice.getPaintFlags() |
+                            android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             holder.originalPrice.setVisibility(View.GONE);
+            // Clear strikethrough so recycled views don’t keep it
+            holder.originalPrice.setPaintFlags(
+                    holder.originalPrice.getPaintFlags() &
+                            ~android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         // Discount Badge
