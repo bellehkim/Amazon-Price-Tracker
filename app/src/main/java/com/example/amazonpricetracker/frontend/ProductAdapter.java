@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amazonpricetracker.R;
@@ -58,7 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // inflate the layer
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.product_layout, parent, false);
+                .inflate(R.layout.item_product_card, parent, false);
 
         return new ViewHolder(view);
     }

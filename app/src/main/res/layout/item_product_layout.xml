@@ -16,22 +16,20 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textViewCurrentPrice"
-        tools:text="Product Name Example" />
+        app:layout_constraintEnd_toStartOf="@+id/textViewCurrentPrice" />
 
-    <!-- Product List Name (Below Product Name) -->
+    <!-- Product Category Name (Below Product Name) -->
     <TextView
-        android:id="@+id/textViewProductListName"
+        android:id="@+id/textViewProductCategoryName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/textViewProductName"
         app:layout_constraintTop_toBottomOf="@id/textViewProductName"
-        app:layout_constraintEnd_toEndOf="@id/textViewProductName"
-        tools:text="List: Electronics" />
+        app:layout_constraintEnd_toEndOf="@id/textViewProductName" />
 
-    <!-- Product Price (Top-Right) -->
+    <!-- Current Price (Top-Right) -->
     <TextView
         android:id="@+id/textViewCurrentPrice"
         android:layout_width="wrap_content"
@@ -40,8 +38,8 @@
         android:textStyle="bold"
         android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textViewProductName"
-        tools:text="$199.99" />
+        app:layout_constraintTop_toTopOf="@id/textViewProductName" />
+
 
     <!-- Target (Below Product Price) -->
     <TextView
@@ -52,8 +50,7 @@
         android:textSize="14sp"
         android:gravity="end"
         app:layout_constraintEnd_toEndOf="@id/textViewCurrentPrice"
-        app:layout_constraintTop_toBottomOf="@id/textViewCurrentPrice"
-        tools:text="Cost: $150.00" />
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentPrice" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
