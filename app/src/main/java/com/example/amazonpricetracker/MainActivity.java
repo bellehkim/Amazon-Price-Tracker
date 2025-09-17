@@ -12,15 +12,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amazonpricetracker.backend.dao.ProductDao;
+import com.example.amazonpricetracker.backend.managers.FavoriteProductManager;
 import com.example.amazonpricetracker.backend.model.Product;
 import com.example.amazonpricetracker.frontend.ProductAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public ProductAdapter productAdapter;
+    public ProductAdapter allProductAdapter;
+    public ProductAdapter favAdapter;
+
     public ProductDao productDao;
+    FavoriteProductManager favoriteProductManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         // Makes the UI defined in XML visible on the scree
         setContentView(R.layout.activity_main);
+
+        favoriteProductManager = new FavoriteProductManager();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -57,11 +64,26 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewProducts.setLayoutManager(layoutManager);
-
-        productAdapter = new ProductAdapter(productList, this);
         recyclerViewProducts.setHasFixedSize(false);
-        recyclerViewProducts.setAdapter(productAdapter);
 
-       // TODO: ADD API call logic here
+        allProductAdapter = new ProductAdapter(productList, this, favoriteProductManager);
+        favAdapter = new ProductAdapter(favoriteProductManager.getFavorites(),
+                this, favoriteProductManager);
+
+        recyclerViewProducts.setAdapter(allProductAdapter);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                recyclerViewProducts.setAdapter(allProductAdapter);
+                return true;
+            } else if (id == R.id.nav_favorites) {
+                recyclerViewProducts.setAdapter(favAdapter);
+                return true;
+            }
+            return false;
+        });
+        // TODO: ADD API call logic here
     }
 }

@@ -7,7 +7,7 @@ public class Product {
     public final double originalPrice;
     public final String discount;
     public final String priceChange;
-    public final boolean isFavorite;
+    public boolean isFavorite;
   //  public final String image;
 
     public Product(final String name, final double currentPrice, final double originalPrice,

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amazonpricetracker.R;
+import com.example.amazonpricetracker.backend.managers.FavoriteProductManager;
 import com.example.amazonpricetracker.backend.model.Product;
 
 import java.util.List;
@@ -21,12 +22,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     // Store data for the adpater
     public final List<Product> productList;
     public final Context context;
+    private final FavoriteProductManager favoriteProductManager;
 
     // Constructor to pass data to the adapter
-    public ProductAdapter(List<Product> productList, Context context) {
+    public ProductAdapter(List<Product> productList, Context context,
+                          FavoriteProductManager favoriteProductManager) {
         this.productList = productList;
         // Turns XML layouts into actual View objects
         this.context = context;
+        this.favoriteProductManager = favoriteProductManager;
+
     }
     // ViewHolder class to hold the views for each item in the RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -87,17 +92,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.productName.setText(currentProduct.name != null
                 ? currentProduct.name : "(no name)");
 
-        @SuppressLint("DefaultLocale") String formatedCurrentPrice =
-                String.format("%.2f", currentProduct.currentPrice);
-        holder.currentPrice.setText(formatedCurrentPrice);
+        String formattedCurrentPriceText = context.getString(R.string.usd_currency,
+                currentProduct.currentPrice);
+        holder.currentPrice.setText(formattedCurrentPriceText);
+
+//        @SuppressLint("DefaultLocale") String formatedCurrentPrice =
+//                String.format("%.2f", currentProduct.currentPrice);
+//        holder.currentPrice.setText(formatedCurrentPrice);
 
         // Original Price
         if (currentProduct.originalPrice > 0
                 && currentProduct.originalPrice > currentProduct.currentPrice) {
             holder.originalPrice.setVisibility(View.VISIBLE);
-            @SuppressLint("DefaultLocale") String formattedOriginalPrice =
-                    String.format("%.2f", currentProduct.originalPrice);
-            holder.originalPrice.setText(formattedOriginalPrice);
+            String formattedOriginalPriceText = context.getString(R.string.usd_currency,
+                    currentProduct.originalPrice);
+            holder.originalPrice.setText(formattedOriginalPriceText);
             // Add strikethrough
             holder.originalPrice.setPaintFlags(
                     holder.originalPrice.getPaintFlags() |
@@ -127,17 +136,30 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.priceChangePercent.setVisibility(View.GONE);
         }
 
-        // Favorite icon visual state (and optional toggle)
-        holder.favoriteIcon.setSelected(currentProduct.isFavorite);
+        // Update icon based on favorite status
+        holder.favoriteIcon.setImageResource(currentProduct.isFavorite ?
+                R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+        // Favorite icon visual state
         holder.favoriteIcon.setOnClickListener(v -> {
-            boolean newState = !holder.favoriteIcon.isSelected();
-            holder.favoriteIcon.setSelected(newState);
+            updateFavoriteStatus(holder, currentProduct);
+            // Sync with manager
+            favoriteProductManager.toggleFavorite(currentProduct, currentProduct.isFavorite);
         });
     }
 
     @Override
     public int getItemCount() {
         return (productList != null) ? productList.size() : 0;
+    }
+
+    private void updateFavoriteStatus(ViewHolder holder, Product product) {
+        product.isFavorite = !product.isFavorite;
+        holder.favoriteIcon.setImageResource(product.isFavorite ?
+                R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+
+
+
+        // TODO: Update the database with the new favorite state
     }
 
 }
