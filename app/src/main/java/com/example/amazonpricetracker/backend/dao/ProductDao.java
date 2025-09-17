@@ -35,14 +35,20 @@ public class ProductDao {
                 if (row.length == 7) {
                     try {
                         String name = row[0].trim();
-                        double currentPrice = parseDoubleSafe(row[1].trim());
-                        double originalPrice = parseDoubleSafe(row[2].trim());
+                        double currentPrice = parseDouble(row[1].trim());
+                        double originalPrice = parseDouble(row[2].trim());
                         String priceChange = row[3].trim();
                         String discount = row[4].trim();
-                        boolean isFavorite = Boolean.parseBoolean(row[6].trim());
+                        boolean isFavorite = parseBoolean(row[6].trim());
 
-                        productList.add(new Product(name, currentPrice, originalPrice, discount,
-                                priceChange, isFavorite));
+                        productList.add(new Product(
+                                name,
+                                currentPrice,
+                                originalPrice,
+                                discount,
+                                priceChange,
+                                isFavorite
+                        ));
                     } catch (NumberFormatException e) {
                         Log.e("MainActivity", "Error parsing CSV line: " + cvsLine, e);
                     }
@@ -72,11 +78,19 @@ public class ProductDao {
         return productList;
     }
 
-    private double parseDoubleSafe(String value) {
+    private double parseDouble(String value) {
         try {
             return Double.parseDouble(value);
         } catch (NumberFormatException e) {
             return 0.0;
+        }
+    }
+
+    private static boolean parseBoolean(String value) {
+        try {
+            return Boolean.parseBoolean(value);
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }
