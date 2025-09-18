@@ -1,5 +1,6 @@
-package com.example.amazonpricetracker;
+package com.example.amazonpricetracker.frontend.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,11 +12,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.amazonpricetracker.R;
 import com.example.amazonpricetracker.backend.dao.ProductDao;
 import com.example.amazonpricetracker.backend.managers.FavoriteProductManager;
 import com.example.amazonpricetracker.backend.model.Product;
 import com.example.amazonpricetracker.frontend.ProductAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +69,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Bottom navigation
         setupBottomNavigation();
+
+        // Add button
+        FloatingActionButton fabOpenAddProductScreen;
+
+        fabOpenAddProductScreen = findViewById(R.id.fab_open_add_product_screen);
+        fabOpenAddProductScreen.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AddProductActivity.class);
+            startActivity(intent);
+        });
 
         // TODO: Optional: set default selected tab explicitly  ?????
         if (bottomNavigationView.getSelectedItemId() == 0) {
