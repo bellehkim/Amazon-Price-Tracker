@@ -28,9 +28,12 @@
     </style>
 
     <!-- Public theme entry -->
-    <style name="Theme.AmazonPriceTracker" parent="Base.Theme.AmazonPriceTracker" />
+    <style name="Theme.AmazonPriceTracker" parent="Theme.Material3.DayNight.NoActionBar" />
+    <!-- <style name="Theme.AmazonPriceTracker" parent="Theme.Material3.DayNight.NoActionBar"
+        <style name="Theme.AmazonPriceTracker" parent="Base.Theme.AmazonPriceTracker" />
+/>
 
-    <!-- Optional overlay for Material components -->
+    <!- Optional overlay for Material components -->
     <style name="ThemeOverlay.AmazonPriceTracker" parent="">
         <item name="colorControlActivated">@color/accent_color</item>
         <item name="colorControlHighlight">@color/accent_color</item>
