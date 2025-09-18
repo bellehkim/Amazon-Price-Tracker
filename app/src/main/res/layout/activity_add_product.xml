@@ -21,7 +21,6 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/background_light"
         app:navigationIcon="@drawable/ic_close"
-        app:title="Close"
         app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         app:titleTextColor="@color/on_background" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Add Product by URL or ASIN"
+                android:text="Add Product"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
                 android:textColor="@color/on_background"
                 android:textStyle="bold" />

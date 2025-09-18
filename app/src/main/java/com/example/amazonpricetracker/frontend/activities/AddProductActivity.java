@@ -9,23 +9,37 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.amazonpricetracker.R;
 import com.example.amazonpricetracker.backend.utils.AmazonIdExtractor;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class AddProductActivity extends AppCompatActivity {
+    private MaterialToolbar toolbarClose;
     private TextInputLayout inputLayout;
     private TextInputEditText editTextUrlOrAsin;
-    private Button buttonAddProduct;
+    private MaterialButton buttonAddProduct;
     private AmazonIdExtractor amazonIdExtractor;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-//        inputLayout = findViewById(R.id.inputLayout);
-//        editTextUrlOrAsin = findViewById(R.id.editTextUrlOrAsin);
-//        buttonAddProduct = findViewById(R.id.buttonAddProduct);
         amazonIdExtractor = new AmazonIdExtractor();
+
+        // Find views by their IDs
+        toolbarClose = findViewById(R.id.button_close);
+        inputLayout = findViewById(R.id.input_layout_product);
+        editTextUrlOrAsin = findViewById(R.id.edit_text_product_input);
+        buttonAddProduct = findViewById(R.id.btn_add_product);
+
+        // Setup Toolbar
+        toolbarClose.setNavigationOnClickListener(v -> finish());
+
+        // Setup Add Button
+        buttonAddProduct.setOnClickListener(v -> { tapAddButton(); });
+
+
 
         tapAddButton();
     }
@@ -37,6 +51,8 @@ public class AddProductActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter a URL or ASIN",
                         Toast.LENGTH_SHORT).show();
                 return;
+            } else {
+                inputLayout.setError(null);
             }
 
             String asin = amazonIdExtractor.extractASIN(input);
