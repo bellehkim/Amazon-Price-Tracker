@@ -120,7 +120,7 @@
         android:id="@+id/btn_add_product"
         style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="66dp"
         android:layout_margin="24dp"
         android:layout_gravity="bottom|center_horizontal"
         android:backgroundTint="@color/primary"
