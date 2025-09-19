@@ -69,7 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         Product currentProduct = productList.get(position);
 
         Log.d("ProductAdapter", "Binding position=" + position
-                + " name=" + currentProduct.name);
+                + " name=" + currentProduct.getName());
 
         if (holder.productName == null) {
             // Log an error or handle the case where the TextView is not found
@@ -94,21 +94,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     // ==== Helpers ====
 
     private void displayName(ViewHolder holder, Product product) {
-        holder.productName.setText(product.name);
+        holder.productName.setText(product.getName());
     }
 
     private void displayPrice(ViewHolder holder, Product product) {
         String formattedCurrentPriceText = context.getString(R.string.usd_currency,
-                product.currentPrice);
+                product.getCurrentPrice());
         holder.currentPrice.setText(formattedCurrentPriceText);
     }
 
     private void displayOriginalPrice(ViewHolder holder, Product product) {
-        if (product.originalPrice > 0
-                && product.originalPrice > product.currentPrice) {
+        if (product.getOriginalPrice() > 0
+                && product.getOriginalPrice() > product.getCurrentPrice()) {
             holder.originalPrice.setVisibility(View.VISIBLE);
             String formattedOriginalPriceText = context.getString(R.string.usd_currency,
-                    product.originalPrice);
+                    product.getOriginalPrice());
             holder.originalPrice.setText(formattedOriginalPriceText);
             // Add strikethrough
             holder.originalPrice.setPaintFlags(
@@ -124,9 +124,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     private void displayDiscount(ViewHolder holder, Product product) {
-        if (product.discount != null && !product.discount.isEmpty()) {
+        if (product.getDiscount() != null && !product.getDiscount().isEmpty()) {
             holder.discountBadge.setVisibility(View.VISIBLE);
-            holder.discountBadge.setText(product.discount);
+            holder.discountBadge.setText(product.getDiscount());
         } else {
             holder.discountBadge.setVisibility(View.GONE);
 
@@ -134,9 +134,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     private void displayPriceChange(ViewHolder holder, Product product) {
-        if (product.priceChange != null && !product.priceChange.isEmpty()) {
+        if (product.getPriceChange() != null && !product.getPriceChange().isEmpty()) {
             holder.priceChangePercent.setVisibility(View.VISIBLE);
-            holder.priceChangePercent.setText(product.priceChange);
+            holder.priceChangePercent.setText(product.getPriceChange());
         } else {
             holder.priceChangePercent.setVisibility(View.GONE);
         }
@@ -144,20 +144,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     private void displayFavorite(ViewHolder holder, Product product) {
-        holder.favoriteIcon.setImageResource(product.isFavorite ?
+        holder.favoriteIcon.setImageResource(product.isFavorite() ?
                 R.drawable.ic_favorite : R.drawable.ic_favorite_border);
         // Favorite icon visual state
         holder.favoriteIcon.setOnClickListener(v -> {
             updateFavoriteStatus(holder, product);
             // Sync with manager
-            favoriteProductManager.toggleFavorite(product, product.isFavorite);
+            favoriteProductManager.toggleFavorite(product, product.isFavorite());
         });
     }
 
     // Helper method to update the favorite status of a product
     private void updateFavoriteStatus(ViewHolder holder, Product product) {
-        product.isFavorite = !product.isFavorite;
-        holder.favoriteIcon.setImageResource(product.isFavorite ?
+        product.setFavorite(!product.isFavorite());
+        holder.favoriteIcon.setImageResource(product.isFavorite() ?
                 R.drawable.ic_favorite : R.drawable.ic_favorite_border);
         // TODO: Update the database with the new favorite state
     }

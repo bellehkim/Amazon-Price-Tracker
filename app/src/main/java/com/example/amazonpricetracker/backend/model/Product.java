@@ -1,23 +1,18 @@
 package com.example.amazonpricetracker.backend.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Setter;
+
+@Data
+@AllArgsConstructor
 public class Product {
     // TODO: I need target price variable later
-    public final String name;
-    public final double currentPrice;
-    public final double originalPrice;
-    public final String discount;
-    public final String priceChange;
-    public boolean isFavorite;
+    private String name;
+    private double currentPrice;
+    private double originalPrice;
+    private String discount;
+    private String priceChange;
+    private boolean isFavorite;
   //  public final String image;
-
-    public Product(final String name, final double currentPrice, final double originalPrice,
-                   final String discount, final String priceChange, final boolean isFavorite) {
-        this.name = name;
-        this.currentPrice = currentPrice;
-        this.originalPrice = originalPrice;
-        this.discount = discount;
-        this.priceChange = priceChange;
-        this.isFavorite = isFavorite;
-      //  this.image = image;
-    }
 }
