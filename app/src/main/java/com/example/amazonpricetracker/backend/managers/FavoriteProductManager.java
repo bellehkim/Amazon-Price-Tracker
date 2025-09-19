@@ -25,7 +25,7 @@ public class FavoriteProductManager {
     }
 
     public void toggleFavorite(Product product, boolean favorite) {
-        product.isFavorite = favorite;
+//        product. = favorite;
 
         if (favorite) {
             if (!favorites.contains(product)) {
@@ -39,7 +39,7 @@ public class FavoriteProductManager {
     private void rebuildFavorites() {
         favorites.clear();
         for (Product product : products) {
-            if (product.isFavorite) {
+            if (product.isFavorite()) {
                 favorites.add(product);
             }
         }
