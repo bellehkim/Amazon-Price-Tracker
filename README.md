@@ -28,7 +28,12 @@ This app uses **[CanopyAPI](https://canopyapi.co/)** to fetch product data from 
 - **Confluence** for writing the design document and project documentation  
 - **Jira** for tracking tasks, features, and progress
 - **AI-assisted tools** (ChatGPT, Gemini in Android Studio) for debugging, standard setup code, and learning support
- 
+
+## 🎨 UI/UX Design Drafts
+<p align="center">
+  <img src="design/Home_Screen.png" alt="Home Screen" width="200"/>
+  <img src="design/Favorite_Screen.png" alt="Favorite Screen" width="185"/>
+</p>
 
 ## 🚀 Getting Started
 
