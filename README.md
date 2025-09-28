@@ -24,9 +24,11 @@ This app uses **[CanopyAPI](https://canopyapi.co/)** to fetch product data from 
 - Provides pricing, images, and metadata  
 - Integrated via Retrofit with custom headers and authentication
   
-## 📋 Project Management
+## 📋 Project Management & Tools
 - **Confluence** for writing the design document and project documentation  
-- **Jira** for tracking tasks, features, and progress  
+- **Jira** for tracking tasks, features, and progress
+- - **AI-assisted tools** (ChatGPT, Gemini in Android Studio) for debugging, standard setup code, and learning support
+ 
 
 ## 🚀 Getting Started
 
