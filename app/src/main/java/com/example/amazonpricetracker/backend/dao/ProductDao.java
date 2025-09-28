@@ -40,15 +40,16 @@ public class ProductDao {
                         String priceChange = row[3].trim();
                         String discount = row[4].trim();
                         boolean isFavorite = parseBoolean(row[6].trim());
-
-                        productList.add(new Product(
-                                name,
-                                currentPrice,
-                                originalPrice,
-                                discount,
-                                priceChange,
-                                isFavorite
-                        ));
+//
+//                        productList.add(new Product(
+//                                asin,
+//                                name,
+//                                currentPrice,
+//                                0.0,
+//                                "",
+//                                "",
+//                                false
+//                        ));
                     } catch (NumberFormatException e) {
                         Log.e("MainActivity", "Error parsing CSV line: " + cvsLine, e);
                     }

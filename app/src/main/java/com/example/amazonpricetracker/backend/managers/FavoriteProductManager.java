@@ -1,47 +1,84 @@
 package com.example.amazonpricetracker.backend.managers;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import com.example.amazonpricetracker.backend.model.Product;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import lombok.Data;
+
+@Data
 public class FavoriteProductManager {
 
-    private final List<Product> favorites = new ArrayList<>();
-    private final List<Product> products = new ArrayList<>();
+    private static final String TAG = "FavoriteProductManager";
+    private static final String PREFS_NAME = "favoritePrefs";
+    private static final String KEY_FAVORITES_ASINS = "favorites_asins";
 
-    public void setProducts(List<Product> products) {
-        this.products.clear();
-        this.products.addAll(products);
-        rebuildFavorites();
+    private static FavoriteProductManager INSTANCE;
+    private final SharedPreferences sharedPreferences;
+    private final Set<String> favoritesAsins = new HashSet<>();
+
+
+    private FavoriteProductManager(Context context) {
+        sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        loadFavorite();
     }
 
-    public List<Product> getFavorites() {
-        return favorites;
+    public static synchronized FavoriteProductManager getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new FavoriteProductManager(context.getApplicationContext());
+        }
+        return INSTANCE;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public void loadFavorite() {
+        Set<String> savedAsins = sharedPreferences.
+                getStringSet(KEY_FAVORITES_ASINS, new HashSet<>());
+        favoritesAsins.clear();
+        favoritesAsins.addAll(savedAsins);
+        Log.d(TAG, "Loaded favorites: " + favoritesAsins.size());
     }
 
-    public void toggleFavorite(Product product, boolean favorite) {
-//        product. = favorite;
+    private void saveFavorites() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(KEY_FAVORITES_ASINS, favoritesAsins);
+        editor.apply();
+        Log.d(TAG, "Saved favorites: " + favoritesAsins.size());
+    }
 
-        if (favorite) {
-            if (!favorites.contains(product)) {
-                favorites.add(product);
-            }
+    public void addFavorites(String asin) {
+        if (asin != null && favoritesAsins.add(asin)) {
+            saveFavorites();
+            Log.d(TAG, "Added favorite: " + asin);
+
+        }
+    }
+    public void removeFavorites(String asin) {
+        if (asin != null && favoritesAsins.remove(asin)) {
+            saveFavorites();
+            Log.d(TAG, "Removed favorite: " + asin);
+        }
+    }
+
+    public void toggleFavorite(String asin) {
+        if (asin == null) {
+            return;
+        }
+        if (isFavorite(asin)) {
+            removeFavorites(asin);
         } else {
-            favorites.remove(product);
+            addFavorites(asin);
         }
     }
 
-    private void rebuildFavorites() {
-        favorites.clear();
-        for (Product product : products) {
-            if (product.isFavorite()) {
-                favorites.add(product);
-            }
-        }
+    public boolean isFavorite(String asin) {
+        return asin != null && favoritesAsins.contains(asin);
     }
+
 }

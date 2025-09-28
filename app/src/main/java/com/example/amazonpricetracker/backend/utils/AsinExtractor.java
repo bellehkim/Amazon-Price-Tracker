@@ -3,7 +3,7 @@ package com.example.amazonpricetracker.backend.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AmazonIdExtractor {
+public class AsinExtractor {
 
     private static final Pattern ASIN_PATTERN = Pattern.compile(
             "(?:/dp/|/gp/product/|/ASIN/|/asin/)([A-Z0-9]{10})"   // URL paths
@@ -18,7 +18,7 @@ public class AmazonIdExtractor {
      *
      *
      */
-    public String extractASIN(String input) {
+    public String extractAsin(String input) {
         if (input == null || input.trim().isEmpty()) {
             return null;
         }

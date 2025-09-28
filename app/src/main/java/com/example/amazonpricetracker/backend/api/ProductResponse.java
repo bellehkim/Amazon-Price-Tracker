@@ -7,6 +7,6 @@ public class ProductResponse {
     private String asin;
     private String name;
     private String image;
-    private double price;
-    private String category;
+    private Double price;
+//    private String category;
 }

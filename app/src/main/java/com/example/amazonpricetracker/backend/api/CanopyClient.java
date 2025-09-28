@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CanopyClient {
-    private static final String BASE_URL = "https://rest.canopyapi.co/";
+    private static final String BASE_URL = "https://rest.canopyapi.co";
     private static CanopyApi api;
     private static CanopyClient instance;
 

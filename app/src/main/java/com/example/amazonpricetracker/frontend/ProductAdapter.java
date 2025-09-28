@@ -15,11 +15,14 @@ import com.example.amazonpricetracker.R;
 import com.example.amazonpricetracker.backend.managers.FavoriteProductManager;
 import com.example.amazonpricetracker.backend.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+    private static final String TAG = "ProductAdapter";
     // Store data for the adapter
-    private final List<Product> productList;
+    private List<Product> productList;
     private final Context context;
     private final FavoriteProductManager favoriteProductManager;
 
@@ -68,6 +71,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // 'position' is the index of the item in the list
         Product currentProduct = productList.get(position);
 
+        displayName(holder, currentProduct);
+        displayPrice(holder, currentProduct);
+        displayOriginalPrice(holder, currentProduct);
+//        displayDiscount(holder, currentProduct);
+//        displayPriceChange(holder, currentProduct);
+
+
         Log.d("ProductAdapter", "Binding position=" + position
                 + " name=" + currentProduct.getName());
 
@@ -77,18 +87,51 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             return;
         }
 
-        displayName(holder, currentProduct);
-        displayPrice(holder, currentProduct);
-        displayOriginalPrice(holder, currentProduct);
-        displayDiscount(holder, currentProduct);
-        displayPriceChange(holder, currentProduct);
-        displayFavorite(holder, currentProduct);
+        // --- Image Loading (Example with Glide, replace if using another library or none) ---
+        // if (currentProduct.getImageUrl() != null && !currentProduct.getImageUrl().isEmpty()) {
+        // Glide.with(context)
+        // .load(currentProduct.getImageUrl())
+        // .placeholder(R.drawable.ic_placeholder_image) // Optional placeholder
+        // .error(R.drawable.ic_error_image) // Optional error image
+        // .into(holder.imageViewProduct);
+        // } else {
+        // holder.imageViewProduct.setImageResource(R.drawable.ic_placeholder_image); // Default if no URL
+        // }
+
+        updateFavoriteIcon(holder, currentProduct.isFavorite());
+
+        holder.favoriteIcon.setOnClickListener(v -> {
+            boolean isCurrentlyFavorite = currentProduct.isFavorite();
+            String asin = currentProduct.getAsin();
+
+            // Toggle in the manager
+            favoriteProductManager.toggleFavorite(asin);
+            // Update the local product's favorite status
+            currentProduct.setFavorite(!isCurrentlyFavorite);
+            // Update the icon
+            updateFavoriteIcon(holder, currentProduct.isFavorite());
+            // Notify adapter
+            notifyItemChanged(holder.getAdapterPosition());
+
+            Log.d(TAG, "Favorite icon clicked for " + asin + ", new state: "
+                    + currentProduct.isFavorite());
+        });
 
     }
 
     @Override
     public int getItemCount() {
         return (productList != null) ? productList.size() : 0;
+    }
+
+    public void updateProductsData(List<Product> newProducts) {
+        if (newProducts == null) {
+            this.productList.clear();
+        } else {
+            this.productList = new ArrayList<>(newProducts);
+        }
+        notifyDataSetChanged(); //Refresh the entire list
+        Log.d(TAG, "Updated product list with " + productList.size() + " products");
     }
 
     // ==== Helpers ====
@@ -123,42 +166,45 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         }
     }
 
-    private void displayDiscount(ViewHolder holder, Product product) {
-        if (product.getDiscount() != null && !product.getDiscount().isEmpty()) {
-            holder.discountBadge.setVisibility(View.VISIBLE);
-            holder.discountBadge.setText(product.getDiscount());
-        } else {
-            holder.discountBadge.setVisibility(View.GONE);
+//    private void displayDiscount(ViewHolder holder, Product product) {
+//        if (product.getDiscount() != null && !product.getDiscount().isEmpty()) {
+//            holder.discountBadge.setVisibility(View.VISIBLE);
+//            holder.discountBadge.setText(product.getDiscount());
+//        } else {
+//            holder.discountBadge.setVisibility(View.GONE);
+//
+//        }
+//    }
 
-        }
-    }
+//    private void displayPriceChange(ViewHolder holder, Product product) {
+//        if (product.getPriceChange() != null && !product.getPriceChange().isEmpty()) {
+//            holder.priceChangePercent.setVisibility(View.VISIBLE);
+//            holder.priceChangePercent.setText(product.getPriceChange());
+//        } else {
+//            holder.priceChangePercent.setVisibility(View.GONE);
+//        }
+//
+//    }
 
-    private void displayPriceChange(ViewHolder holder, Product product) {
-        if (product.getPriceChange() != null && !product.getPriceChange().isEmpty()) {
-            holder.priceChangePercent.setVisibility(View.VISIBLE);
-            holder.priceChangePercent.setText(product.getPriceChange());
-        } else {
-            holder.priceChangePercent.setVisibility(View.GONE);
-        }
-
-    }
-
-    private void displayFavorite(ViewHolder holder, Product product) {
-        holder.favoriteIcon.setImageResource(product.isFavorite() ?
-                R.drawable.ic_favorite : R.drawable.ic_favorite_border);
-        // Favorite icon visual state
-        holder.favoriteIcon.setOnClickListener(v -> {
-            updateFavoriteStatus(holder, product);
-            // Sync with manager
-            favoriteProductManager.toggleFavorite(product, product.isFavorite());
-        });
-    }
+//    private void displayFavorite(ViewHolder holder, Product product) {
+//        holder.favoriteIcon.setImageResource(product.isFavorite() ?
+//                R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+//        // Favorite icon visual state
+//        holder.favoriteIcon.setOnClickListener(v -> {
+//            updateFavoriteIcon(holder, product);
+//            // Sync with manager
+//            favoriteProductManager.toggleFavorite(product, product.isFavorite());
+//        });
+//    }
 
     // Helper method to update the favorite status of a product
-    private void updateFavoriteStatus(ViewHolder holder, Product product) {
-        product.setFavorite(!product.isFavorite());
-        holder.favoriteIcon.setImageResource(product.isFavorite() ?
-                R.drawable.ic_favorite : R.drawable.ic_favorite_border);
-        // TODO: Update the database with the new favorite state
+    private void updateFavoriteIcon(ViewHolder holder, boolean isFavorite) {
+        if (isFavorite) {
+            holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
+        } else {
+            holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_border);
+        }
     }
+
+
 }
