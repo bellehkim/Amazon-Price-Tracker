@@ -13,11 +13,17 @@ Users can add items to their wishlist and receive notifications when prices drop
 ## 🛠️ Tech Stack
 - **Language:** Java
 - **Framework:** Android SDK (Android Studio)
-- **Networking:**
+- **Networking:** Retrofit (with **CanopyAPI** integration)
 - **Architecture:** 
 - **Database:** 
 - **UI:** Material Design Components
-
+  
+## 🌐 API Integration
+This app uses **[CanopyAPI](https://canopyapi.co/)** to fetch product data from Amazon:  
+- Retrieves product details by ASIN or URL
+- Provides pricing, images, and metadata  
+- Integrated via Retrofit with custom headers and authentication
+  
 ## 📋 Project Management
 - **Confluence** for writing the design document and project documentation  
 - **Jira** for tracking tasks, features, and progress  
@@ -25,7 +31,10 @@ Users can add items to their wishlist and receive notifications when prices drop
 ## 🚀 Getting Started
 
 ### Prerequisites
-
+- [Android Studio](https://developer.android.com/studio)
+- Android SDK 21 (Lollipop) or higher
+- A physical or virtual Android device to run the app
+- A **CanopyAPI key** (sign up at [CanopyAPI](https://canopyapi.co/))
 
 ### Installation
 
