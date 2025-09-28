@@ -7,8 +7,11 @@ Users can add items to their wishlist and receive notifications when prices drop
 - Add products to a wishlist by entering Amazon product details
 - Track current product price using Amazon’s API
 - Display simple UI to manage wishlisted items
+
+## 📌 Future Implementation (To-Do)
 - Receive price-drop notifications
-- Data persistence (local storage)
+- Data persistence with local storage (Room Database)
+- Dark mode support
 
 ## 🛠️ Tech Stack
 - **Language:** Java
@@ -44,4 +47,3 @@ This app uses **[CanopyAPI](https://canopyapi.co/)** to fetch product data from 
 - A **CanopyAPI key** (sign up at [CanopyAPI](https://canopyapi.co/))
 
 ### Installation
-
