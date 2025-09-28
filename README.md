@@ -27,7 +27,7 @@ This app uses **[CanopyAPI](https://canopyapi.co/)** to fetch product data from 
 ## 📋 Project Management & Tools
 - **Confluence** for writing the design document and project documentation  
 - **Jira** for tracking tasks, features, and progress
-- - **AI-assisted tools** (ChatGPT, Gemini in Android Studio) for debugging, standard setup code, and learning support
+- **AI-assisted tools** (ChatGPT, Gemini in Android Studio) for debugging, standard setup code, and learning support
  
 
 ## 🚀 Getting Started
