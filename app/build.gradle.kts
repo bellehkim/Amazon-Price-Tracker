@@ -2,7 +2,9 @@ import java.util.Properties
 import java.io.FileInputStream
 
 val localProperties = Properties()
+
 val localPropertiesFile = rootProject.file("local.properties")
+
 
 if (localPropertiesFile.exists()) {
     localProperties.load(FileInputStream(localPropertiesFile))
@@ -15,6 +17,10 @@ plugins {
 android {
     namespace = "com.example.amazonpricetracker"
     compileSdk = 36
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId = "com.example.amazonpricetracker"
