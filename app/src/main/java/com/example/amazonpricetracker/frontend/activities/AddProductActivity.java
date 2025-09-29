@@ -15,7 +15,7 @@ import com.example.amazonpricetracker.R;
 import com.example.amazonpricetracker.backend.api.ApiProductDataResponse;
 import com.example.amazonpricetracker.backend.api.CanopyApi;
 import com.example.amazonpricetracker.backend.api.CanopyClient;
-import com.example.amazonpricetracker.backend.model.DataContainer;
+import com.example.amazonpricetracker.backend.api.DataContainer;
 import com.example.amazonpricetracker.backend.managers.AllProductManager;
 import com.example.amazonpricetracker.backend.managers.FavoriteProductManager;
 import com.example.amazonpricetracker.backend.model.AmazonProduct;
@@ -39,6 +39,13 @@ public class AddProductActivity extends AppCompatActivity {
     private FavoriteProductManager favoriteProductManager;
     private AsinExtractor asinExtractor;
 
+    /**
+     * Called when the activity is first created for the Add Product screen.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
@@ -71,6 +78,17 @@ public class AddProductActivity extends AppCompatActivity {
         // </com.google.android.material.textfield.TextInputLayout>
     }
 
+    /**
+     * Handles the tap on the "Add Product" button.
+     * <ol>
+     *     <li>Validates the input (ASIN or URL)</li>
+     *     <li>if input is a URL, attempts to extract the ASIN/li>
+     *     <li>Ensures the ASIN is valid</li>
+     *     <li>Calls the Canopy API to fetch product details</li>
+     *     <li>Adds/updates the product to the AllProductManager</li>
+     *     <li>On error, shows a Toast and logs the issue</li>
+     * </ol>
+     */
     private void tapAddButton() {
         String input = inputEditText.getText() != null
                 ? this.inputEditText.getText().toString().trim() : "";
@@ -136,6 +154,12 @@ public class AddProductActivity extends AppCompatActivity {
 //        B09DDD6YGJ
 
         api.getProduct(apiKey, asinToProcess, usDomain).enqueue(new Callback<>() {
+
+            /**
+             * Retrofit callback for handling API response.
+             * @param call      the Retrofit call object
+             * @param response  the Retrofit response object
+             */
             @Override
             public void onResponse(@NonNull Call<ApiProductDataResponse> call,
                                    @NonNull Response<ApiProductDataResponse> response) {
@@ -206,6 +230,11 @@ public class AddProductActivity extends AppCompatActivity {
                 }
             }
 
+            /**
+             * Retrofit callback for handling API failure.
+             * @param call  the Retrofit call object
+             * @param t     the error/exception thrown during the API call
+             */
             @Override
             public void onFailure (@NonNull Call < ApiProductDataResponse > call,
                                    @NonNull Throwable t) {

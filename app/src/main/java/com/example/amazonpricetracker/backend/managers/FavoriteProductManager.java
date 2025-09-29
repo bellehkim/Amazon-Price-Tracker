@@ -4,15 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.amazonpricetracker.backend.model.Product;
-
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import lombok.Data;
 
+/**
+ * Singleton class for managing favorite products.
+ */
 @Data
 public class FavoriteProductManager {
 
@@ -25,11 +24,20 @@ public class FavoriteProductManager {
     private final Set<String> favoritesAsins = new HashSet<>();
 
 
+    /**
+     * Private constructor to prevent instantiation from outside the class.
+     * @param context the application context
+     */
     private FavoriteProductManager(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         loadFavorite();
     }
 
+    /**
+     * Get the singleton instance of the FavoriteProductManager.
+     * @param context the application context
+     * @return the singleton instance
+     */
     public static synchronized FavoriteProductManager getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = new FavoriteProductManager(context.getApplicationContext());
@@ -37,6 +45,12 @@ public class FavoriteProductManager {
         return INSTANCE;
     }
 
+    /**
+     * Loads the favorite products from the shared preferences.
+     * <p>
+     *     Clears the current list of favorites and adds the ASINs from the shared preferences.
+     * </p>
+     */
     public void loadFavorite() {
         Set<String> savedAsins = sharedPreferences.
                 getStringSet(KEY_FAVORITES_ASINS, new HashSet<>());
@@ -45,6 +59,9 @@ public class FavoriteProductManager {
         Log.d(TAG, "Loaded favorites: " + favoritesAsins.size());
     }
 
+    /**
+     * Saves the favorite products to the shared preferences.
+     */
     private void saveFavorites() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putStringSet(KEY_FAVORITES_ASINS, favoritesAsins);
@@ -52,6 +69,10 @@ public class FavoriteProductManager {
         Log.d(TAG, "Saved favorites: " + favoritesAsins.size());
     }
 
+    /**
+     * Adds a product to the list of favorites.
+     * @param asin the ASIN of the product
+     */
     public void addFavorites(String asin) {
         if (asin != null && favoritesAsins.add(asin)) {
             saveFavorites();
@@ -59,6 +80,11 @@ public class FavoriteProductManager {
 
         }
     }
+
+    /**
+     * Removes a product from the list of favorites.
+     * @param asin the ASIN of the product
+     */
     public void removeFavorites(String asin) {
         if (asin != null && favoritesAsins.remove(asin)) {
             saveFavorites();
@@ -66,6 +92,15 @@ public class FavoriteProductManager {
         }
     }
 
+    /**
+     * Toggles the favorite status of a product.
+     * <ul>
+     *     <li>If currently a favorite, removes it</li>
+     *     <li>If not a favorite, adds it</li>
+     * </ul>
+     *
+     * @param asin the ASIN of the product
+     */
     public void toggleFavorite(String asin) {
         if (asin == null) {
             return;
@@ -77,6 +112,11 @@ public class FavoriteProductManager {
         }
     }
 
+    /**
+     * Checks if a product is a favorite.
+     * @param asin the ASIN of the product
+     * @return true if the product is a favorite, false otherwise
+     */
     public boolean isFavorite(String asin) {
         return asin != null && favoritesAsins.contains(asin);
     }

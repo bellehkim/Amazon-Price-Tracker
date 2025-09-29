@@ -1,10 +1,12 @@
 package com.example.amazonpricetracker.backend.api;
 
-import com.example.amazonpricetracker.backend.model.DataContainer;
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
 
+/**
+ * Response from the Canopy API when getting product data.
+ */
 @Data
 public class ApiProductDataResponse {
 

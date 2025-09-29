@@ -6,11 +6,10 @@ import java.util.regex.Pattern;
 public class AsinExtractor {
 
     private static final Pattern ASIN_PATTERN = Pattern.compile(
-            "(?:/dp/|/gp/product/|/ASIN/|/asin/)([A-Z0-9]{10})"   // URL paths
-                    + "|(?:[?&;](?:ASIN|asin)=)([A-Z0-9]{10})"           // Query params
-                    + "|\\b([A-Z0-9]{10})\\b",                            // Standalone
-                    Pattern.CASE_INSENSITIVE
-
+        "(?:/dp/|/gp/product/|/ASIN/|/asin/)([A-Z0-9]{10})"   // URL paths
+                + "|(?:[?&;](?:ASIN|asin)=)([A-Z0-9]{10})"          // Query params
+                + "|\\b([A-Z0-9]{10})\\b",                          // Standalone
+                Pattern.CASE_INSENSITIVE
     );
 
     /**

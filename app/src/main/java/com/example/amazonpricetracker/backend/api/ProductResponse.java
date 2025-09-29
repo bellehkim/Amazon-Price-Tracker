@@ -2,6 +2,9 @@ package com.example.amazonpricetracker.backend.api;
 
 import lombok.Data;
 
+/**
+ * Response from the Canopy API when getting product details.
+ */
 @Data
 public class ProductResponse {
     private String asin;

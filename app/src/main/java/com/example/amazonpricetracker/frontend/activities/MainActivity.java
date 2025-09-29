@@ -43,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> addProductLauncher;
     private AsinExtractor asinExtractor;
 
+    /**
+     * Called when the activity is first created.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Calls the onCreate method of the parent class (AppCompatActivity)
@@ -94,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Applies system bar insets to the main layout.
+     */
     private void applyWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main),
                 (v, insets) -> {
@@ -103,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Sets up the RecyclerView with a LinearLayoutManager.
+     */
     private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -122,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
 //        return productList;
 //    }
 
+    /**
+     * Sets up the BottomNavigationView with item selection listener.
+     */
     private void setupBottomNavigation() {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -138,13 +154,16 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        // Set default selected tab
+        // Set default to home if nothings selected
         if (bottomNavigationView.getSelectedItemId() != R.id.nav_favorites
                 && bottomNavigationView.getMenu().findItem(R.id.nav_home) != null) {
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
         }
     }
 
+    /**
+     * Sets up the FloatingActionButton to open the AddProductActivity.
+     */
     private void setupAddProductFAB() {
         FloatingActionButton fabOpenAddProductScreen
                 = findViewById(R.id.fab_open_add_product_screen);
@@ -154,6 +173,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Updates the adapters with the latest data from the managers.
+     * <ul>
+     *     <li>Home screen: All products</li>
+     *     <li>Favorites screen: Only favorite products</li>
+     * </ul>
+     */
     private void updateAdapter() {
         List<Product> masterProductsList = allProductManager.getAllProducts();
         List<Product> productsForHome = new ArrayList<>();
