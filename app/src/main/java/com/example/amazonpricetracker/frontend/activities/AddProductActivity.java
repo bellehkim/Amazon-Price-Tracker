@@ -57,6 +57,7 @@ public class AddProductActivity extends AppCompatActivity {
         // Setup Add Button
         buttonAddProduct.setOnClickListener(v -> tapAddButton());
 
+
         favoriteProductManager = FavoriteProductManager.getInstance(this);
 
         // Update hint text for the input field in your XML (e.g., activity_add_product.xml)
