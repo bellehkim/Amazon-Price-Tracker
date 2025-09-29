@@ -6,6 +6,9 @@ import java.util.List;
 
 import lombok.Data;
 
+/**
+ * Model class for Amazon product data returned from the Canopy API.
+ */
 @Data
 public class AmazonProduct {
 
