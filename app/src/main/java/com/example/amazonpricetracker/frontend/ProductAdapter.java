@@ -17,7 +17,10 @@ import com.example.amazonpricetracker.backend.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.ImageRequest;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private static final String TAG = "ProductAdapter";
@@ -25,6 +28,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private List<Product> productList;
     private final Context context;
     private final FavoriteProductManager favoriteProductManager;
+    private final ImageLoader imageLoader;
 
     // Constructor to pass data to the adapter
     public ProductAdapter(List<Product> productList, Context context,
@@ -33,6 +37,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // Turns XML layouts into actual View objects
         this.context = context;
         this.favoriteProductManager = favoriteProductManager;
+        this.imageLoader = Coil.imageLoader(context);
 
     }
     // ViewHolder class to hold the views for each item in the RecyclerView
@@ -47,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             currentPrice = itemView.findViewById(R.id.currentPrice);
             originalPrice = itemView.findViewById(R.id.originalPrice);
             priceChangePercent = itemView.findViewById(R.id.priceChangePercent);
-         //   productImage = itemView.findViewById(R.id.productImage);
+            productImage = itemView.findViewById(R.id.productImage);
             favoriteIcon = itemView.findViewById(R.id.favoriteIcon);
             if (favoriteIcon == null) {
                 // Log an error or handle the case where the ImageView is not found
@@ -77,7 +82,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 //        displayDiscount(holder, currentProduct);
 //        displayPriceChange(holder, currentProduct);
 
-
         Log.d("ProductAdapter", "Binding position=" + position
                 + " name=" + currentProduct.getName());
 
@@ -87,16 +91,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             return;
         }
 
-        // --- Image Loading (Example with Glide, replace if using another library or none) ---
-        // if (currentProduct.getImageUrl() != null && !currentProduct.getImageUrl().isEmpty()) {
-        // Glide.with(context)
-        // .load(currentProduct.getImageUrl())
-        // .placeholder(R.drawable.ic_placeholder_image) // Optional placeholder
-        // .error(R.drawable.ic_error_image) // Optional error image
-        // .into(holder.imageViewProduct);
-        // } else {
-        // holder.imageViewProduct.setImageResource(R.drawable.ic_placeholder_image); // Default if no URL
-        // }
+        displayImage(holder, currentProduct);
 
         updateFavoriteIcon(holder, currentProduct.isFavorite());
 
@@ -203,6 +198,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.favoriteIcon.setImageResource(R.drawable.ic_favorite);
         } else {
             holder.favoriteIcon.setImageResource(R.drawable.ic_favorite_border);
+        }
+    }
+
+    private void displayImage(ViewHolder holder, Product product) {
+        if (product.getImage() != null && !product.getImage().isEmpty()) {
+            ImageRequest request = new ImageRequest.Builder(context)
+                    .data(product.getImage())
+                    .target(holder.productImage)
+                    .placeholder(R.drawable.ic_placeholder_image)
+                    .error(R.drawable.ic_error_image)
+                    .crossfade(true)
+                    .build();
+            imageLoader.enqueue(request);
+        } else {
+            // Set a default image
+            holder.productImage.setImageResource(R.drawable.ic_placeholder_image);
         }
     }
 
