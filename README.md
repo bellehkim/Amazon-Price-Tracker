@@ -1,11 +1,12 @@
 # Amazon Price Tracker (Android)
 
 An Android application that allows users to track the price history and current price of Amazon products.  
-Users can add items to their wishlist and receive notifications when prices drop.  
+Users can add items to their wishlist and receive notifications when prices drop.
 
 ## 📱 Features
 - Add products to a wishlist by entering Amazon product details
 - Track current product price using Amazon’s API
+  - Supports **Amazon US domain only**
 - Display simple UI to manage wishlisted items
 
 ## 📌 Future Implementation (To-Do)
